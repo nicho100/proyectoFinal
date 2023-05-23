@@ -1,28 +1,30 @@
+require("../config/auth")
 const { Router } = require("express")
 const passport=require("passport")
 const { getProducts } = require("../controller/product")
 const routerLogins= Router()
 
 
-routerLogins.get('/datos',async (req,res)=>{//si el usuario se loguea se muestra el listado de los productos
+routerLogins.get('/productos',async (req,res)=>{//si el usuario se loguea se muestra el listado de los productos
     if(req.session.username){
     const produc=await getProducts()
-    const nombre=req.session.username
-    res.render('form.ejs',{produc,nombre})
+    res.send(produc)
+    console.log("te logeaste exitosamente")
+   
     return  
     }
-    res.redirect("/login.html")
+    res.redirect("/login")
 })
 
-routerLogins.post('/signup',passport.authenticate("signup",{failureRedirect:"login.html"}),async (req,res)=>{//ruta para que el usuario se registre
+routerLogins.post('/signup',passport.authenticate("signup",{failureRedirect:"/login"}),async (req,res)=>{//ruta para que el usuario se registre
     req.session.username=req.user.username
-   res.redirect("/log/datos")
+   res.redirect("/productos")
  })
  
- routerLogins.post('/login',passport.authenticate("login",{failureRedirect:"/login.html"}), async (req,res)=>{//ruta para que el usuario inicie sesion
+ routerLogins.post('/login',passport.authenticate("login",{failureRedirect:"/login"}), async (req,res)=>{//ruta para que el usuario inicie sesion
      req.session.username=req.user.username
      
-     res.redirect("/log/datos")
+     res.redirect("/productos")
  })
  
  routerLogins.get("/logout",async(req,res)=>{//ruta para cerrar sesion
