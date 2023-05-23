@@ -1,10 +1,7 @@
 require("dotenv").config()
-//traigo el link de mongo de .env y lo exporto
 
-const urlMongo=process.env.URL//uso dotenv para guardar el link de la base de datos
+const urlMongo=process.env.URL
 const puerto=process.env.PORT
+const tiempo=process.env.COOKIETIME
 
-//uso minimist para configurar el puerto
-
-
-module.exports={urlMongo,puerto}
+module.exports={urlMongo,puerto,tiempo}
