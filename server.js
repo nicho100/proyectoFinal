@@ -1,4 +1,3 @@
-//importaciones
 const { routerLogins } = require("./routes/logins");
 const { puerto, urlMongo,tiempo} = require("./config/enviorment");
 //configuracion express
@@ -14,13 +13,11 @@ const server=createServer(app)
 const mongoStore=require("connect-mongo")
 const passport=require("passport")
 app.use(expressSession({secret:"secret",resave:true,saveUninitialized:true}))
-app.use(passport.initialize())//se usa passport para controlar los logins de los usuariosS
-app.use(passport.session())
+
 
 //configuracion sockets
 const socketIo = require('socket.io')
 const io =socketIo(server)
-
 
 app.use(expressSession({//se crea una cookie
     store: mongoStore.create({mongoUrl:urlMongo}),
@@ -31,6 +28,8 @@ app.use(expressSession({//se crea una cookie
     rolling:true,
 }))
 
+app.use(passport.initialize())//se usa passport para controlar los logins de los usuariosS
+app.use(passport.session())
 
 const producto={
     name:"ventilador",
