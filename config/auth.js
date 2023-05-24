@@ -2,7 +2,6 @@ const passport=require("passport")
 const {Strategy:localStrategy}=require("passport-local")
 const{hashSync,compareSync}=require("bcrypt")
 const { getUsers, addUser } = require("../controller/user")
-
 passport.serializeUser(function(user,done){
     done(null,user.username)
 })
@@ -26,14 +25,16 @@ passport.use("login",new localStrategy (async(username,password,done)=>{//si el 
    done(null,false)
 }))
 
-passport.use("signup",new localStrategy(async(username,password,done)=>{//crea un usuario pero si ya existe da error
+passport.use("signup",new localStrategy({passReqToCallback: true},async(username,password,done)=>{//crea un usuario pero si ya existe da error
     const users=await getUsers()
+    console.log(password)
     const existentUser=users.find(user=>user.username===username)
   if(existentUser){
     done(new Error("el usuario ya existe"))
     return
 }
-const user={username,password:hashSync(password,10)}//encripta la contraseña
+const user={email:username,password:hashSync(password,10),
+    fullname:req.body.fullname,phone:req.body.phone}//encripta la contraseña
 await addUser(user)
 done(null,user)
 }))
