@@ -25,7 +25,7 @@ passport.use("login",new localStrategy (async(username,password,done)=>{//si el 
    done(null,false)
 }))
 
-passport.use("signup",new localStrategy({passReqToCallback: true},async(username,password,done)=>{//crea un usuario pero si ya existe da error
+passport.use("signup",new localStrategy({passReqToCallback: true},async(req,username,password,done)=>{//crea un usuario pero si ya existe da error
     const users=await getUsers()
     console.log(password)
     const existentUser=users.find(user=>user.username===username)
