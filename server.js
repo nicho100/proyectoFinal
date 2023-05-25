@@ -12,7 +12,7 @@ const server=createServer(app)
 //configuracion sesion y passport
 const mongoStore=require("connect-mongo")
 const passport=require("passport")
-app.use(expressSession({secret:"secret",resave:true,saveUninitialized:true}))
+
 
 
 //configuracion sockets
@@ -24,7 +24,7 @@ app.use(expressSession({//se crea una cookie
     secret:"secreto",
     resave: true,
     saveUninitialized:true,
-    cookie:{maxAge:tiempo},
+    cookie:{maxAge:parseInt(tiempo)},
     rolling:true,
 }))
 
