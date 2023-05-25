@@ -34,7 +34,7 @@ passport.use("signup",new localStrategy({passReqToCallback: true},async(req,user
     return
 }
 const user={email:username,password:hashSync(password,10),
-    fullname:req.body.fullname,phone:req.body.phone}//encripta la contraseña
+    fullname:req.body.fullname,phone:req.body.phone}//guarda los datos del usuario en la base de datos
 await addUser(user)
 done(null,user)
 }))
