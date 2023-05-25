@@ -6,13 +6,13 @@ const routerLogins= Router()
 
 routerLogins.post('/signup',passport.authenticate("signup",{failureRedirect:"/login"}),async (req,res)=>{//ruta para que el usuario se registre
     req.session.username=req.user.username
-   res.redirect("/productos")
+   res.redirect("/prod/productos")
  })
  
  routerLogins.post('/login',passport.authenticate("login",{failureRedirect:"/login"}), async (req,res)=>{//ruta para que el usuario inicie sesion
      req.session.username=req.user.username
      
-     res.redirect("/productos")
+     res.redirect("/prod/productos")
  })
  
  routerLogins.get("/logout",async(req,res)=>{//ruta para cerrar sesion
