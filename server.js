@@ -1,4 +1,6 @@
+//importaciones
 const { routerLogins } = require("./routes/logins");
+const { routerProducts } = require("./routes/productos");
 const { puerto, urlMongo,tiempo} = require("./config/enviorment");
 //configuracion express
 const express=require('express');
@@ -13,10 +15,9 @@ const server=createServer(app)
 const mongoStore=require("connect-mongo")
 const passport=require("passport")
 
-
-
 //configuracion sockets
-const socketIo = require('socket.io')
+const socketIo = require('socket.io');
+
 const io =socketIo(server)
 
 app.use(expressSession({//se crea una cookie
@@ -40,5 +41,6 @@ const producto={
 }
 
 app.use('/',routerLogins)
+app.use('/prod',routerProducts)
 
 server.listen(puerto,(req,res)=>(console.log("funciona"))) 
