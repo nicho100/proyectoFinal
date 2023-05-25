@@ -1,15 +1,28 @@
 require("../config/auth")
 const { Router } = require("express")
 const passport=require("passport")
-
+const { getProducts } = require("../controller/product")
 const routerLogins= Router()
 
-routerLogins.post('/signup',passport.authenticate("signup",{failureRedirect:"/login"}),async (req,res)=>{//ruta para que el usuario se registre
+
+routerLogins.get('/productos',async (req,res)=>{//si el usuario se loguea se muestra el listado de los productos
+    if(req.session.username){
+    const produc=await getProducts()
+    res.send(produc)
+    console.log("te logeaste exitosamente")
+   
+    return  
+    }
+    res.redirect("/login")
+})
+
+routerLogins.post('/signup',passport.authenticate("signup",{failureMessage:"hubo un error"}),async (req,res)=>{//ruta para que el usuario se registre
     req.session.username=req.user.username
+    console.log(req.body)
    res.redirect("/prod/productos")
  })
  
- routerLogins.post('/login',passport.authenticate("login",{failureRedirect:"/login"}), async (req,res)=>{//ruta para que el usuario inicie sesion
+ routerLogins.post('/login',passport.authenticate("login",{failureMessage:"hubo un error"}), async (req,res)=>{//ruta para que el usuario inicie sesion
      req.session.username=req.user.username
      
      res.redirect("/prod/productos")
